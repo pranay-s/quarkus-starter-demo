@@ -6,35 +6,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@Produces(MediaType.APPLICATION_JSON_VALUE)
-@Path("/user")
+@RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @GET
-    @Path("/list")
+    @GetMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<User>> listAll(){
         return new ResponseEntity<>(userService.listAllUsers(), HttpStatus.OK);
     }
 
-    @GET
-    @Path("compute-fib/{num}")
-    public ResponseEntity<Integer> fibonacci(@PathParam("num") int n) {
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public  ResponseEntity<Map<String, Boolean>> createUser(User user) {
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("created", userService.createUser(user));
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
+    }
+
+    @GetMapping(value = "/compute-fib/{num}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Integer> fibonacci(@PathVariable("num") int n) {
         return new ResponseEntity<>(userService.computeFibonacci(n), HttpStatus.OK);
     }
 }
