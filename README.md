@@ -29,25 +29,30 @@ Refer to [pom.xml](https://github.com/pranay-s/springboot-starter-demo/blob/main
 **Instructions**:
 - extract mandrel tar in `/usr/lib/mandrel`
 - go to project path, run:
-```shell
+```sh
 export PATH=/usr/lib/mandrel/mandrel-java11-20.3.3.0-Final/bin:$PATH
 export JAVA_HOME=/usr/lib/mandrel/mandrel-java11-20.3.3.0-Final
 ```
 Build native image:
-```shell
+```sh
 ./mvnw package -Pnative
 ```
 To run native image:
-```shell
+```sh
 ./target/code-with-quarkus-1.0.0-PROTO-runner
 ```
 **Using docker**:
 Go to project dir.
-```shell
+```sh
 sudo docker build -f src/main/docker/Dockerfile.fast-jar -t quarkus/code-with-quarkus-fast-jar .
 sudo docker run -i --net=host --rm -p 8080:8080 --name quarkus-native quarkus/code-with-quarkus
 ```
 To run using jdk hotspot and run in dev mode:
-```shell
+```sh
 ./mvnw compile quarkus:dev
+```
+#### Run load test on `GET` API
+Uses 50 VUs for 30s to run load test
+```sh
+k6 run --vus 50 --duration 30s script-native-get.js
 ```
