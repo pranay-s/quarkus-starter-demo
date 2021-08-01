@@ -30,9 +30,4 @@ public class UserController {
         result.put("created", userService.createUser(user));
         return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
-
-    @GetMapping(value = "/compute-fib/{num}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Integer> fibonacci(@PathVariable("num") int n) {
-        return new ResponseEntity<>(userService.computeFibonacci(n), HttpStatus.OK);
-    }
 }

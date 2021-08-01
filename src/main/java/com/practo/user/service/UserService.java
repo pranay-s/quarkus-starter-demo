@@ -21,15 +21,4 @@ public class UserService {
         userRepository.persist(user);
         return true;
     }
-
-    public int computeFibonacci(int n) {
-        if(n == 1) {
-            return 1;
-        }
-        if(n == 2) {
-            return 2;
-        }
-        return computeFibonacci(n-1) + computeFibonacci(n-2);
-    }
-
 }
